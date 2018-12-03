@@ -16,6 +16,11 @@ def prepare_data(seqs, labels):
     lenght.
 
     This swap the axis!
+
+    Returns:
+        x: numpy array -- (max length, batch size) -- example: (19, 512) -- each column is one example
+        x_mask: numpy array -- (max length, batch size) -- of 1's and 0's
+        labels: python list -- length = batch size
     """
     # x: a list of sentences
 
@@ -58,8 +63,8 @@ def load_data(valid_portion=0.1, maxlen=19, sort_by_len=False):
     #############
 
     # Load the dataset
-    path_train_data = ''
-    path_test_data = ''
+    path_train_data = 'data/yoochoose-data/train_dummy.pkl'
+    path_test_data = 'data/yoochoose-data/test_dummy.pkl'
 
     f1 = open(path_train_data, 'rb')
     train_set = pickle.load(f1)
