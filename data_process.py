@@ -16,6 +16,11 @@ def prepare_data(seqs, labels):
     lenght.
 
     This swap the axis!
+
+    Returns:
+        x: numpy array -- (max length, batch size) -- example: (19, 512) -- each column is one example
+        x_mask: numpy array -- (max length, batch size) -- of 1's and 0's
+        labels: python list -- length = batch size
     """
     # x: a list of sentences
 
