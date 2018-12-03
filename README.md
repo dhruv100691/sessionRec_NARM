@@ -1,6 +1,9 @@
 # CODE
 
-NARM.py -- Main code -- Run this to train models - Needs Theano
+- NARM.py -- Main code -- Run this to train models - Needs Theano
+- data_process.py -- Is called by NARM.py to load data from the .pkl train and test dataset files and to convert that data to numpy arrays and lists
+- example_prepocess.py -- Standalone piece of code used to obtain the .pkl train and test dataset files from the original dataset published at https://2015.recsyschallenge.com/challenge.html (As of now, Prashant hasn't pushed all of his local changes to this code. But the .pkl files in the repo are up-to-date. He will update the code soon...)
+
 
 # DATA
 
