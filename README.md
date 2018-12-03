@@ -1,17 +1,23 @@
-# Neural Attentive Recommendation Machine
+# CODE
 
-This is our implementation for the paper:
+NARM.py -- Main code -- Run this to train models - Needs Theano
 
-Jing Li, Pengjie Ren, Zhumin Chen, Zhaochun Ren, Tao Lian and Jun Ma (2017). Neural Attentive Session-based Recommendation. In Proceedings of CIKM'17, Singapore, Singapore, Nov 06-10, 2017.
+# DATA
 
-We have additionally released our Theano implementation of Neural Attentive Recommendation Machine under our proposed neural network framework.
+All of the data preprocessing code is agnostic to Theano except https://github.com/prashant-jayan21/sessionRec_NARM/blob/master/data_process.py#L32. You may want to edit it as per your needs when you switch to using TensorFlow.
 
-**Please cite our CIKM'17 paper if you use our codes. Thanks!**
+The datasets which will be used currently by NARM.py are:
+- data/train_dummy.pkl
+- data/test_dummy.pkl
 
-Author: Jing Li (jingli.sdu@gmail.com)
+(The validation set is created on-the-fly in the code.)
 
-## Datasets
+These are dummy datasets in the right format but don't include all of the data. These should be used for development purposes as using the full datasets will slow you down too much. (Prashant will provide the full datasets soon...)
 
-YOOCHOOSE: http://2015.recsyschallenge.com/challenge.html
+# CODING GUIDELINES
 
-DIGINETICA: http://cikm2016.cs.iupui.edu/cikm-cup
+Please do not push to master if your changes are unstable. Always work on a separate branch and merge to master whenever ready.
+
+
+
+
