@@ -45,6 +45,7 @@ def get_dataset(name):
 
 load_data, prepare_data = get_dataset(dataset)
 train, valid, test = load_data()
+num_train_examples = len(train[0])
 
 def get_pairs_from_dataset(data):
     pairs=[]
@@ -202,29 +203,34 @@ def trainIters(encoder, decoder, n_iters, print_every=64, learning_rate=lrate):
 
     encoder_optimizer = optim.Adam(encoder.parameters(), lr=learning_rate)
     decoder_optimizer = optim.Adam(decoder.parameters(), lr=learning_rate)
-    training_pairs = [tensorsFromPair(random.choice(pairs_train))
-                      for i in range(n_iters)]
+
+    training_pairs = [tensorsFromPair(i) for i in pairs_train]
     # criterion = nn.NLLLoss()
     criterion = nn.CrossEntropyLoss()
 
-    for iter in range(1, n_iters + 1):
-        training_pair = training_pairs[iter - 1]
-        input_tensor = training_pair[0]
-        target_tensor = training_pair[1]
+    curr_iter = 0
 
-        # print("Input Tensor:")
-        # print(input_tensor)
-        # exit()
+    for iter_out in range(num_train_examples//n_iters):
+        
+        for iter in range(1, n_iters + 1):
+            training_pair = training_pairs[curr_iter+iter - 1]
+            input_tensor = training_pair[0]
+            target_tensor = training_pair[1]
 
-        loss = train(input_tensor, target_tensor, encoder,
-                     decoder, encoder_optimizer, decoder_optimizer, criterion)
-        print_loss_total += loss
+            # print("Input Tensor:")
+            # print(input_tensor)
+            # exit()
 
-        if iter % print_every == 0:
-            print_loss_avg = print_loss_total / print_every
-            print_loss_total = 0
-            print('%s (%d %d%%) %.4f' % (timeSince(start, iter / n_iters),
-                                         iter, iter / n_iters * 100, print_loss_avg))
+            loss = train(input_tensor, target_tensor, encoder,
+                         decoder, encoder_optimizer, decoder_optimizer, criterion)
+            print_loss_total += loss
+
+            if iter % print_every == 0:
+                print_loss_avg = print_loss_total / print_every
+                print_loss_total = 0
+                print('%s (%d %d%%) %.4f' % (timeSince(start, iter / n_iters),
+                                             iter, iter / n_iters * 100, print_loss_avg))
+        curr_iter+=n_iters
 
     
 
@@ -271,7 +277,7 @@ def compute_score(encoder, decoder):
     mrr=0.0
     recall=0.0
     evalutation_point_count = 0
-    for i in range(len(pairs_test)):
+    for i in pairs_test:
         testing_pair = tensorsFromPair(i)
         input_tensor = testing_pair[0]
         target_tensor = testing_pair[1]
