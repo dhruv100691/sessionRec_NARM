@@ -17,6 +17,11 @@ The datasets which will be used currently by NARM.py are:
 
 These are dummy datasets in the right format but don't include all of the data. These should be used for development purposes as using the full datasets will slow you down too much. (Prashant will provide the full datasets soon...)
 
+
+# MODEL
+
+The Model is created using PyTorch 0.4.1. Validation set is not yet implemented.
+
 # CODING GUIDELINES
 
 Please do not push to master if your changes are unstable. Always work on a separate branch and merge to master whenever ready.
