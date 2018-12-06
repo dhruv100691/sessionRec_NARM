@@ -33,7 +33,9 @@ dim_proj = 50
 MAX_LENGTH = 20
 max_epochs = 30
 batch_size = 512
-vocab_size = 37485
+# 1 is added to vocab_size for SOS_token
+# vocab_size = 37485 # For Yoochoose
+vocab_size = 43098 # For Diginetica
 SOS_token = vocab_size-1
 EOS_token = 0
 dataset='rsc2015'
