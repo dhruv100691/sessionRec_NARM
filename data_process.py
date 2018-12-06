@@ -63,8 +63,8 @@ def load_data(valid_portion=0.1, maxlen=19, sort_by_len=False):
     #############
 
     # Load the dataset
-    path_train_data = 'data/yoochoose-data/train_dummy.pkl'
-    path_test_data = 'data/yoochoose-data/test_dummy.pkl'
+    path_train_data = 'data/yoochoose-data/digi_train.pkl'
+    path_test_data = 'data/yoochoose-data/digi_test.pkl'
 
     f1 = open(path_train_data, 'rb')
     train_set = pickle.load(f1)
