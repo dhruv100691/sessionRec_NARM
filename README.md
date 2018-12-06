@@ -15,6 +15,8 @@ The final train and datasets to be used are:
 
 (The validation set is created on-the-fly in the code.)
 
+Also, the original raw dataset can be found at data_raw/dataset-train-diginetica.
+
 
 # CODING GUIDELINES
 
