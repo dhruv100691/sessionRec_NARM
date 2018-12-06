@@ -5,21 +5,21 @@ import pickle
 import operator
 
 # Load .csv dataset
-with open("", "rb") as f:
-    reader = csv.DictReader(f, delimiter=',')
+with open("data_raw/dataset-train-diginetica/train-item-views.csv", "rb") as f:
+    reader = csv.DictReader(f, delimiter=';')
     sess_clicks = {}
     sess_date = {}
     ctr = 0
     curid = -1
     curdate = None
     for data in reader:
-        sessid = data['SessionId']
+        sessid = data['sessionId']
         if curdate and not curid == sessid:
             date = time.mktime(time.strptime(curdate, '%Y-%m-%d'))
             sess_date[curid] = date
         curid = sessid
-        item = data['ItemId']
-        curdate = data['Time']
+        item = data['itemId']
+        curdate = data['eventdate']
         if sess_clicks.has_key(sessid):
             sess_clicks[sessid] += [item]
         else:
@@ -80,6 +80,7 @@ item_dict = {}
 item_ctr = 1
 train_seqs = []
 train_dates = []
+my_train_ctr = 0
 # Convert training sessions to sequences and renumber items to start from 1
 for s, date in train_sess:
     seq = sess_clicks[s]
@@ -93,11 +94,16 @@ for s, date in train_sess:
             item_ctr += 1
     if len(outseq) < 2:  # Doesn't occur
         continue
+    my_train_ctr += 1
     train_seqs += [outseq]
     train_dates += [date]
 
+print("Number of training sessions:")
+print(my_train_ctr)
+
 test_seqs = []
 test_dates = []
+my_test_ctr = 0
 # Convert test sessions to sequences, ignoring items that do not appear in training set
 for s, date in test_sess:
     seq = sess_clicks[s]
@@ -107,9 +113,14 @@ for s, date in test_sess:
             outseq += [item_dict[i]]
     if len(outseq) < 2:
         continue
+    my_test_ctr += 1
     test_seqs += [outseq]
     test_dates += [date]
 
+print("Number of test sessions:")
+print(my_test_ctr)
+
+print("Number of items:")
 print(item_ctr)
 
 def process_seqs(iseqs, idates):
@@ -132,10 +143,15 @@ te_seqs, te_dates, te_labs = process_seqs(test_seqs,test_dates)
 train = (tr_seqs, tr_labs)
 test = (te_seqs, te_labs)
 
-f1 = open('', 'w')
+print("Number of training examples (sequences):")
+print(len(tr_labs))
+print("Number of test examples (sequences):")
+print(len(te_labs))
+
+f1 = open('data/digi_train.pkl', 'w')
 pickle.dump(train, f1)
 f1.close()
-f2 = open('', 'w')
+f2 = open('data/digi_test.pkl', 'w')
 pickle.dump(test, f2)
 f2.close()
 
