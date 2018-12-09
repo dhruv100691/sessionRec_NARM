@@ -2,7 +2,7 @@ from __future__ import print_function
 import pickle
 
 import numpy
-import theano
+#import theano
 numpy.random.seed(42)
 
 
@@ -28,10 +28,11 @@ def prepare_data(seqs, labels):
     n_samples = len(seqs)
     maxlen = numpy.max(lengths)
 
-    x = numpy.zeros((maxlen, n_samples)).astype('int64')
-    x_mask = numpy.ones((maxlen, n_samples)).astype(theano.config.floatX)
+    x = numpy.zeros((n_samples,maxlen)).astype('int64')
+    #x_mask = numpy.ones((maxlen, n_samples)).astype(theano.config.floatX)
+    x_mask = numpy.ones(( n_samples,maxlen))
     for idx, s in enumerate(seqs):
-        x[:lengths[idx], idx] = s
+        x[idx,:lengths[idx]] = s
 
     x_mask *= (1 - (x == 0))
 
