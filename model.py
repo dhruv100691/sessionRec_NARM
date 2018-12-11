@@ -137,7 +137,6 @@ print("%d test examples" % len(test[0]))
 
 history_errs = []
 history_vali = []
-best_p = None
 bad_count = 0
 
 uidx = 0  # the number of update done
@@ -191,7 +190,7 @@ try:
             test_evaluation = pred_evaluation(prepare_data, test, kf_test)
             history_errs.append([valid_evaluation, test_evaluation])
 
-            if best_p is None or valid_evaluation[0] >= np.array(history_vali).max():
+            if valid_evaluation[0] >= np.array(history_vali).max():
 
                 save_path = saver.save(sess, "/tmp/model.ckpt")
                 print('Best perfomance updated!')
