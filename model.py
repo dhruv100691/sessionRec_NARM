@@ -173,24 +173,13 @@ try:
 
             if np.mod(uidx, dispFreq) == 0:
                 print('Epoch ', eidx, 'Update ', uidx, 'Loss ', np.mean(epoch_loss))
-        '''
-        if saveto and is_save:
-            print('Saving...')
-
-            if best_p is not None:
-                params = best_p
-            else:
-                params = unzip(tparams)
-            np.savez(saveto, history_errs=history_errs, **params)
-            print('Saving done')
-        '''
 
         if is_valid:
             valid_evaluation = pred_evaluation(prepare_data, valid, kf_valid)
             test_evaluation = pred_evaluation(prepare_data, test, kf_test)
             history_errs.append([valid_evaluation, test_evaluation])
 
-            if valid_evaluation[0] >= np.array(history_vali).max():
+            if len(history_vali) == 0 or valid_evaluation[0] >= np.array(history_vali).max():
 
                 save_path = saver.save(sess, "/tmp/model.ckpt")
                 print('Best perfomance updated!')
