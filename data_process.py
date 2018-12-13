@@ -2,8 +2,12 @@ from __future__ import print_function
 import pickle
 
 import numpy
+<<<<<<< HEAD
 # import theano
 import tensorflow as tf
+=======
+#import theano
+>>>>>>> master
 numpy.random.seed(42)
 
 
@@ -29,11 +33,17 @@ def prepare_data(seqs, labels):
     n_samples = len(seqs)
     maxlen = numpy.max(lengths)
 
+<<<<<<< HEAD
     x = numpy.zeros((maxlen, n_samples)).astype('int64')
     # x_mask = numpy.ones((maxlen, n_samples)).astype(theano.config.floatX)
     x_mask = numpy.ones((maxlen, n_samples)).astype(tf.float32)
+=======
+    x = numpy.zeros((n_samples,maxlen)).astype('int64')
+    #x_mask = numpy.ones((maxlen, n_samples)).astype(theano.config.floatX)
+    x_mask = numpy.ones(( n_samples,maxlen))
+>>>>>>> master
     for idx, s in enumerate(seqs):
-        x[:lengths[idx], idx] = s
+        x[idx,:lengths[idx]] = s
 
     x_mask *= (1 - (x == 0))
 
