@@ -4,6 +4,8 @@ import pickle
 
 import operator
 
+import numpy as np
+
 # Load .csv dataset
 with open("data_raw/dataset-train-diginetica/train-item-views.csv", "rb") as f:
     reader = csv.DictReader(f, delimiter=';')
@@ -121,7 +123,55 @@ print("Number of test sessions:")
 print(my_test_ctr)
 
 print("Number of items:")
-print(item_ctr)
+print(len(item_dict))
+
+# print(item_dict)
+
+with open("data_raw/dataset-train-diginetica/products.csv", "rb") as f:
+    reader = csv.DictReader(f, delimiter=';')
+    prices_dict = {} # mapped item id's to prices
+    for data in reader:
+        # {'itemId': '1', 'pricelog2': '10', 'product.name.tokens': '4875,776,56689,18212,18212,4896'}
+        item_id = data['itemId']
+        price = int(data['pricelog2'])
+
+        if not item_dict.has_key(item_id):
+            continue
+        mapped_item_id = item_dict[item_id]
+
+        if not prices_dict.has_key(mapped_item_id):
+            prices_dict[mapped_item_id] = price
+
+# print(prices_dict)
+print(len(prices_dict))
+assert len(prices_dict) == len(item_dict)
+
+# map price to feature vector
+all_unique_prices = list(set(prices_dict.values()))
+print(all_unique_prices)
+
+def price_to_vec(price):
+    vec = [0.0] * len(all_unique_prices)
+    index = all_unique_prices.index(price)
+
+    vec[index] = 1.0
+
+    return vec
+
+# print(price_to_vec(6))
+
+# get all feature vectors
+feature_matrix = np.random.rand(len(prices_dict), len(all_unique_prices))
+
+for mapped_item_id, price in prices_dict.iteritems():
+    # mapped item id's start from 1, not 0
+    row_index = mapped_item_id - 1
+    feature_vec = price_to_vec(price)
+
+    # insert
+    feature_matrix[row_index] = feature_vec
+
+print(feature_matrix)
 
 def process_seqs(iseqs, idates):
     out_seqs = []
@@ -135,7 +185,6 @@ def process_seqs(iseqs, idates):
             out_dates += [date]
 
     return out_seqs, out_dates, labs
-
 
 tr_seqs, tr_dates, tr_labs = process_seqs(train_seqs,train_dates)
 te_seqs, te_dates, te_labs = process_seqs(test_seqs,test_dates)
