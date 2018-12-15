@@ -17,7 +17,7 @@ The final train and datasets to be used are:
 
 Also, the original raw dataset can be found at data_raw/dataset-train-diginetica.
 
-The items feature matrix can be found here: https://drive.google.com/drive/folders/1uLCH3xGEu6LA0AC6weyHsRZqEeM4DiFF?usp=sharing
+The items feature matrix can be found here: https://drive.google.com/drive/folders/1uLCH3xGEu6LA0AC6weyHsRZqEeM4DiFF?usp=sharing. Simply load it as a numpy array using numpy's `load` function.
 
 **Format:**
 - #rows = #items (**NOTE: row index = item id - 1**)
