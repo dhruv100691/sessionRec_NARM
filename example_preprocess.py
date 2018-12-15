@@ -125,6 +125,7 @@ print(my_test_ctr)
 print("Number of items:")
 print(len(item_dict))
 
+# generate item feature matrix
 with open("data_raw/dataset-train-diginetica/products.csv", "rb") as f:
     reader = csv.DictReader(f, delimiter=';')
     prices_dict = {} # mapped item id's to prices
@@ -141,6 +142,21 @@ with open("data_raw/dataset-train-diginetica/products.csv", "rb") as f:
 
 assert len(prices_dict) == len(item_dict)
 
+with open("data_raw/dataset-train-diginetica/product-categories.csv", "rb") as f:
+    reader = csv.DictReader(f, delimiter=';')
+    categories_dict = {} # mapped item id's to category id's
+    for data in reader:
+        item_id = data['itemId']
+        cat_id = int(data['categoryId'])
+
+        if not item_dict.has_key(item_id):
+            continue
+        mapped_item_id = item_dict[item_id]
+
+        categories_dict[mapped_item_id] = cat_id
+
+assert len(categories_dict) == len(item_dict)
+
 # map price to feature vector
 all_unique_prices = list(set(prices_dict.values()))
 
@@ -152,13 +168,28 @@ def price_to_vec(price):
 
     return vec
 
+# map category to feature vector
+all_unique_cats = list(set(categories_dict.values()))
+
+def cat_to_vec(cat):
+    vec = [0.0] * len(all_unique_cats)
+    index = all_unique_cats.index(cat)
+
+    vec[index] = 1.0
+
+    return vec
+
 # get all feature vectors
-feature_matrix = np.random.rand(len(prices_dict), len(all_unique_prices)) # items X feature vec size
+feature_matrix = np.random.rand(len(prices_dict), len(all_unique_prices) + len(all_unique_cats)) # items X feature vec size
 
 for mapped_item_id, price in prices_dict.iteritems():
+    cat = categories_dict[mapped_item_id]
+
     # mapped item id's start from 1, not 0
     row_index = mapped_item_id - 1
-    feature_vec = price_to_vec(price)
+    price_feature_vec = price_to_vec(price)
+    cat_feature_vec = cat_to_vec(cat)
+    feature_vec = price_feature_vec + cat_feature_vec
 
     # insert
     feature_matrix[row_index] = feature_vec
