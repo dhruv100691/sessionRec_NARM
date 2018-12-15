@@ -17,6 +17,18 @@ The final train and datasets to be used are:
 
 Also, the original raw dataset can be found at data_raw/dataset-train-diginetica.
 
+The items feature matrix can be found here: https://drive.google.com/drive/folders/1uLCH3xGEu6LA0AC6weyHsRZqEeM4DiFF?usp=sharing
+
+**Format:**
+- #rows = #items (**NOTE: row index = item id - 1**)
+- #columns = feature vector size = #unique prices + #unique categories
+
+Each feature vector is a concatenation of the following two vectors:
+- A one-hot vector for price info (size = 12)
+- A one-hot vector for category info (size = 995)
+
+You can also experiment with picking just one of these feature vectors instead of using the concatenated one. You'll need to split the numpy matrix accordingly.
+
 
 # CODING GUIDELINES
 
