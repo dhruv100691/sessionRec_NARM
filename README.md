@@ -25,9 +25,5 @@ Each feature vector is a concatenation of the following two vectors:
 - A one-hot vector for price info (size = 12)
 - A one-hot vector for category info (size = 995)
 
-You can also experiment with picking just one of these feature vectors instead of using the concatenated one. You'll need to split the numpy matrix accordingly.
-
-
-
 
 
